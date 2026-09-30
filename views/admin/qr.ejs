@@ -28,17 +28,47 @@
     </header>
 
     <main class="dashboard-content">
-        <div class="qr-container">
+        <div class="qr-container" id="qrCard">
             <h2><%= wedding.groom_name %> & <%= wedding.bride_name %></h2>
             <p>Scan to capture and share our wedding memories.</p>
             
             <% if (qrDataUrl) { %>
                 <img src="<%= qrDataUrl %>" alt="Wedding QR Code" class="qr-image">
-                <a href="<%= qrDataUrl %>" download="<%= wedding.slug %>-qr.png" class="btn-primary">Download QR</a>
+                <button id="dlBtn" onclick="downloadQRCard()" class="btn-primary">Download QR</button>
             <% } else { %>
                 <p>Failed to generate QR code.</p>
             <% } %>
         </div>
     </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        function downloadQRCard() {
+            const card = document.getElementById('qrCard');
+            const btn = document.getElementById('dlBtn');
+            
+            // Temporarily hide the button so it isn't in the image
+            btn.style.display = 'none';
+            
+            // Give the browser a tiny moment to apply the display:none before capturing
+            setTimeout(() => {
+                html2canvas(card, {
+                    scale: 3, // High resolution
+                    backgroundColor: '#ffffff'
+                }).then(canvas => {
+                    const link = document.createElement('a');
+                    link.download = '<%= wedding.slug %>-qr-card.png';
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    
+                    // Show the button again
+                    btn.style.display = 'inline-block';
+                }).catch(err => {
+                    console.error("Error generating image", err);
+                    btn.style.display = 'inline-block';
+                });
+            }, 50);
+        }
+    </script>
 </body>
 </html>
