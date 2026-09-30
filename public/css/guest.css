@@ -89,47 +89,74 @@
 .env-btn-primary:hover { box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); transform: scale(1.04); }
 
 
-/* Name Entry */
-.name-card {
-    padding: 60px 30px;
+/* Name Page Redesign */
+.name-page-bg {
+    margin: 0; padding: 0;
+    min-height: 100dvh;
+    background-color: #fcfbfa; /* Very light warm white */
+    display: flex; flex-direction: column;
+}
+
+.name-page-container {
+    width: 100%; max-width: 600px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+    flex: 1; display: flex; flex-direction: column;
+}
+
+.name-header {
+    margin-bottom: 5rem;
+    text-align: left;
 }
 
 .name-title {
-    font-size: 2rem;
-    margin-bottom: 15px;
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 6vw, 2.4rem);
+    color: #2c2a28; font-weight: 400; margin: 0 0 1.5rem 0;
 }
 
 .name-desc {
-    color: #666;
-    margin-bottom: 40px;
+    font-family: var(--font-sans);
+    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+    color: #6a645e; line-height: 1.6; font-weight: 300; margin: 0;
 }
 
 .name-form {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: flex; flex-direction: column; width: 100%;
+}
+
+.name-input-wrapper {
+    position: relative;
+    border-bottom: 1px solid #3b332b;
+    margin-bottom: 1.5rem;
 }
 
 .name-input {
-    padding: 15px;
-    border: none;
-    border-bottom: 1px solid var(--accent-gold);
-    background: transparent;
+    width: 100%;
+    background: transparent; border: none;
     text-align: center;
-    font-family: var(--font-serif);
-    font-size: 1.5rem;
-    outline: none;
-    color: var(--text-dark);
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 1.6rem; color: #333;
+    padding: 0.5rem 0 1rem 0;
 }
+.name-input:focus { outline: none; }
+.name-input::placeholder { color: #d0c9c0; font-weight: 300; }
 
-.name-input:focus {
-    border-bottom-color: var(--text-dark);
+.name-btn-continue {
+    width: 100%;
+    background-color: #2e2a27;
+    color: #ffffff;
+    border: none;
+    padding: 1.2rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
 }
-
-.name-input::placeholder {
-    color: #ccc;
-    font-style: italic;
-}
+.name-btn-continue:hover { background-color: #1a1714; }
 
 /* Success Page */
 .success-icon {
