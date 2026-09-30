@@ -89,36 +89,29 @@
 .env-btn-primary:hover { box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); transform: scale(1.04); }
 
 
-/* Name Page Redesign */
-.name-page-bg {
-    margin: 0; padding: 0;
-    min-height: 100dvh;
-    background-color: #fcfbfa; /* Very light warm white */
-    display: flex; flex-direction: column;
+/* Name Page Redesign - Inside Card */
+.name-card-custom {
+    min-height: 400px;
+    justify-content: center;
+    gap: 3rem;
+    padding: clamp(2rem, 5vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
 }
 
-.name-page-container {
-    width: 100%; max-width: 600px;
-    margin: 0 auto;
-    padding: 4rem 2rem;
-    flex: 1; display: flex; flex-direction: column;
-}
-
-.name-header {
-    margin-bottom: 5rem;
+.name-header-custom {
     text-align: left;
+    width: 100%;
 }
 
 .name-title {
     font-family: var(--font-serif);
     font-size: clamp(2rem, 6vw, 2.4rem);
-    color: #2c2a28; font-weight: 400; margin: 0 0 1.5rem 0;
+    color: #2c2a28; font-weight: 400; margin: 0 0 1rem 0;
 }
 
 .name-desc {
     font-family: var(--font-sans);
-    font-size: clamp(0.95rem, 2.5vw, 1.05rem);
-    color: #6a645e; line-height: 1.6; font-weight: 300; margin: 0;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    color: #6a645e; line-height: 1.5; font-weight: 300; margin: 0;
 }
 
 .name-form {
@@ -137,7 +130,7 @@
     text-align: center;
     font-family: var(--font-serif); font-style: italic;
     font-size: 1.6rem; color: #333;
-    padding: 0.5rem 0 1rem 0;
+    padding: 0.5rem 0 0.8rem 0;
 }
 .name-input:focus { outline: none; }
 .name-input::placeholder { color: #d0c9c0; font-weight: 300; }
@@ -147,7 +140,7 @@
     background-color: #2e2a27;
     color: #ffffff;
     border: none;
-    padding: 1.2rem;
+    padding: 1.1rem;
     font-family: var(--font-sans);
     font-size: 0.8rem;
     font-weight: 500;

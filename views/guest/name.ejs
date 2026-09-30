@@ -8,23 +8,29 @@
     <link rel="stylesheet" href="/css/guest.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 </head>
-<body class="name-page-bg">
-    <div class="name-page-container">
-        <div class="name-header">
-            <h1 class="name-title">Welcome ❤️</h1>
-            <p class="name-desc">
-                Before you capture a moment,<br>
-                tell us your name.
-            </p>
-        </div>
+<body class="welcome-bg">
+    <div class="env-stage">
+        <div class="env-glow"></div>
         
-        <form action="/w/<%= wedding.slug %>/name" method="POST" class="name-form">
-            <div class="name-input-wrapper">
-                <input type="text" name="guestName" placeholder="Your name" required autofocus autocomplete="name" class="name-input">
+        <div class="vertical-card name-card-custom">
+            <div class="vertical-card-inner-border"></div>
+            
+            <div class="name-header-custom">
+                <h1 class="name-title">Welcome ❤️</h1>
+                <p class="name-desc">
+                    Before you capture a moment,<br>
+                    tell us your name.
+                </p>
             </div>
             
-            <button type="submit" class="name-btn-continue">CONTINUE &rarr;</button>
-        </form>
+            <form action="/w/<%= wedding.slug %>/name" method="POST" class="name-form">
+                <div class="name-input-wrapper">
+                    <input type="text" name="guestName" placeholder="Your name" required autofocus autocomplete="name" class="name-input">
+                </div>
+                
+                <button type="submit" class="name-btn-continue">CONTINUE &rarr;</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>
