@@ -198,10 +198,6 @@
     .nav-links.active {
         display: flex;
     }
-    
-    .photo-count-text {
-        display: none; /* Hide photo count on very small screens to save space */
-    }
 }
 
 .dashboard-content {
