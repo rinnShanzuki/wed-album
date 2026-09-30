@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title><%= wedding.groom_name %> & <%= wedding.bride_name %> - Welcome</title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/guest.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body class="welcome-bg">
+    <div class="welcome-container">
+        <div class="invitation-card">
+            <p class="pre-title">TOGETHER WITH THEIR FAMILIES</p>
+            
+            <h1 class="couple-names"><%= wedding.groom_name %> <span class="ampersand">&</span> <%= wedding.bride_name %></h1>
+            
+            <div class="heart-divider">♥</div>
+            
+            <p class="welcome-message">
+                <%= wedding.welcome_message || "Two lives, two hearts, joined together in friendship, united forever in love." %>
+            </p>
+            
+            <div class="wedding-details">
+                <p class="date"><%= new Date(wedding.wedding_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() %></p>
+                <p class="venue"><%= wedding.ceremony_venue %> • <%= wedding.location %></p>
+            </div>
+            
+            <a href="/w/<%= wedding.slug %>/name" class="btn-primary">CAPTURE OUR MOMENTS &rarr;</a>
+        </div>
+    </div>
+</body>
+</html>

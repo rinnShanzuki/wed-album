@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Album - <%= wedding.groom_name %> & <%= wedding.bride_name %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/guest.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body class="album-body">
+    <header class="album-header">
+        <h1><%= wedding.groom_name %> & <%= wedding.bride_name %></h1>
+        <p>Shared Memories</p>
+    </header>
+
+    <main class="album-container" id="albumGrid">
+        <div class="loading">Loading memories...</div>
+    </main>
+
+    <div class="floating-action">
+        <a href="/w/<%= wedding.slug %>/camera" class="capture-btn">
+            <span class="icon">📷</span>
+            CAPTURE
+        </a>
+    </div>
+
+    <!-- Fullscreen Viewer -->
+    <div id="photoViewer" class="viewer-overlay" style="display: none;">
+        <div class="viewer-header">
+            <span class="viewer-guest-name" id="viewerGuestName"></span>
+            <button class="close-viewer" id="closeViewer">&times;</button>
+        </div>
+        <div class="viewer-content">
+            <img id="viewerImage" src="" alt="Wedding Memory">
+        </div>
+        <div class="viewer-footer">
+            <a id="downloadLink" href="#" download class="download-btn">DOWNLOAD</a>
+        </div>
+    </div>
+
+    <script>
+        window.WEDDING_SLUG = "<%= wedding.slug %>";
+    </script>
+    <script src="/js/album.js"></script>
+</body>
+</html>

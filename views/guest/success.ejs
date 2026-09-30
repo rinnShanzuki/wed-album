@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Success - <%= wedding.groom_name %> & <%= wedding.bride_name %></title>
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/guest.css">
+</head>
+<body class="welcome-bg">
+    <div class="welcome-container">
+        <div class="invitation-card success-card">
+            <div class="success-icon">✓</div>
+            
+            <h2 class="name-title">Memory Shared!</h2>
+            
+            <p class="name-desc">
+                Your photo is now part of<br>
+                <%= wedding.groom_name %> & <%= wedding.bride_name %>'s wedding album.
+            </p>
+            
+            <div class="action-buttons">
+                <a href="/w/<%= wedding.slug %>/camera" class="btn-primary">TAKE ANOTHER PHOTO</a>
+                <a href="/w/<%= wedding.slug %>/album" class="btn-secondary">VIEW ALBUM</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

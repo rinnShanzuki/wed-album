@@ -1,0 +1,437 @@
+/* Welcome & Name Pages */
+.welcome-bg {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: radial-gradient(circle at center, #FFFFFF 0%, #FDFBF7 100%);
+}
+
+.welcome-container {
+    width: 100%;
+    max-width: 500px;
+}
+
+.invitation-card {
+    background-color: #fff;
+    padding: 50px 30px;
+    border: 1px solid var(--border-gold);
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+    position: relative;
+}
+
+.invitation-card::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    bottom: 10px;
+    border: 1px solid var(--border-gold);
+    pointer-events: none;
+}
+
+.pre-title {
+    font-size: 0.75rem;
+    letter-spacing: 3px;
+    color: #666;
+    margin-bottom: 30px;
+}
+
+.couple-names {
+    font-family: var(--font-script);
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    color: var(--text-dark);
+}
+
+.ampersand {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    font-style: italic;
+    color: var(--accent-gold);
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.heart-divider {
+    color: var(--accent-gold);
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.welcome-message {
+    font-style: italic;
+    font-family: var(--font-serif);
+    color: #555;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.wedding-details {
+    margin-bottom: 50px;
+}
+
+.wedding-details .date {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.wedding-details .venue {
+    font-size: 0.85rem;
+    color: #666;
+    letter-spacing: 1px;
+}
+
+/* Name Entry */
+.name-card {
+    padding: 60px 30px;
+}
+
+.name-title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.name-desc {
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.name-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.name-input {
+    padding: 15px;
+    border: none;
+    border-bottom: 1px solid var(--accent-gold);
+    background: transparent;
+    text-align: center;
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    outline: none;
+    color: var(--text-dark);
+}
+
+.name-input:focus {
+    border-bottom-color: var(--text-dark);
+}
+
+.name-input::placeholder {
+    color: #ccc;
+    font-style: italic;
+}
+
+/* Success Page */
+.success-icon {
+    font-size: 4rem;
+    color: var(--accent-gold);
+    margin-bottom: 20px;
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+/* Camera Interface */
+.camera-body {
+    background-color: #000;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+    height: 100dvh;
+}
+
+#camera-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    position: relative;
+}
+
+.camera-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    z-index: 10;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.close-btn {
+    font-size: 2rem;
+    line-height: 1;
+    color: #fff;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.photo-count {
+    font-size: 0.9rem;
+    background: rgba(0,0,0,0.5);
+    padding: 5px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.video-container {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#videoElement, #photoPreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.camera-controls {
+    height: 120px;
+    background: #000;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20px;
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.control-btn {
+    background: rgba(255,255,255,0.1);
+    border: none;
+    color: #fff;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.shutter-btn {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: #fff;
+    border: 4px solid #ccc;
+    cursor: pointer;
+}
+
+.shutter-btn:active {
+    background: #ccc;
+    transform: scale(0.95);
+}
+
+.action-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    letter-spacing: 1px;
+    cursor: pointer;
+    padding: 15px 20px;
+}
+
+.use-btn {
+    color: var(--accent-gold);
+    font-weight: bold;
+}
+
+/* Overlays */
+.overlay {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    color: #fff;
+}
+
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.error-modal {
+    background: #fff;
+    color: var(--text-dark);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 80%;
+}
+
+.error-modal h3 {
+    margin-bottom: 10px;
+    color: #d32f2f;
+}
+
+.error-modal p {
+    margin-bottom: 20px;
+}
+
+/* Album */
+.album-body {
+    background: var(--bg-ivory);
+    min-height: 100vh;
+}
+
+.album-header {
+    text-align: center;
+    padding: 30px 20px;
+    border-bottom: 1px solid var(--border-gold);
+    background: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.album-header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+}
+
+.album-header p {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #666;
+}
+
+.album-container {
+    padding: 2px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+}
+
+@media (min-width: 768px) {
+    .album-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .album-container {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.photo-item {
+    aspect-ratio: 3/4;
+    background: #eee;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+}
+
+.photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.floating-action {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+.capture-btn {
+    background: var(--text-dark);
+    color: var(--bg-ivory);
+    padding: 15px 30px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.viewer-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #000;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.viewer-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    color: #fff;
+}
+
+.close-viewer {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.viewer-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.viewer-content img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.viewer-footer {
+    padding: 20px;
+    text-align: center;
+}
+
+.download-btn {
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+}
