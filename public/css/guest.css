@@ -98,14 +98,14 @@
 }
 
 .name-header-custom {
-    text-align: left;
+    text-align: center;
     width: 100%;
 }
 
 .name-title {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 6vw, 2.4rem);
-    color: #2c2a28; font-weight: 400; margin: 0 0 1rem 0;
+    font-family: var(--font-script);
+    font-size: clamp(3rem, 8vw, 4rem);
+    color: #2c2a28; font-weight: 400; margin: 0 0 0.5rem 0;
 }
 
 .name-desc {
