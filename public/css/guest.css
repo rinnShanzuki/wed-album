@@ -5,21 +5,60 @@
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background: radial-gradient(circle at center, #FFFFFF 0%, #FDFBF7 100%);
+    background-color: #f6f4f0; /* warm light beige */
 }
 
 .welcome-container {
     width: 100%;
     max-width: 500px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px 0; /* space for envelope flaps */
+}
+
+/* The Envelope Back (Triangle pointing up) */
+.envelope-back {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 230px solid transparent;
+    border-right: 230px solid transparent;
+    border-bottom: 150px solid #d4c0a5; /* tan envelope color */
+    z-index: 1;
+}
+
+/* The Envelope Bottom (Rectangle) */
+.envelope-front {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 460px;
+    height: 70px;
+    background: #c3ad8f;
+    clip-path: polygon(0 0, 50% 30px, 100% 0, 100% 100%, 0 100%);
+    z-index: 3;
+    border-radius: 0 0 5px 5px;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    max-width: 95vw;
 }
 
 .invitation-card {
     background-color: #fff;
     padding: 50px 30px;
-    border: 1px solid var(--border-gold);
-    box-shadow: var(--shadow-soft);
+    border: 1px solid #eaeaea;
+    border-radius: 8px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
     text-align: center;
     position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 440px;
 }
 
 .invitation-card::before {
@@ -29,63 +68,110 @@
     left: 10px;
     right: 10px;
     bottom: 10px;
-    border: 1px solid var(--border-gold);
+    border: 1px solid #d4af37;
+    border-radius: 6px;
     pointer-events: none;
 }
 
+.close-x {
+    position: absolute;
+    top: 20px;
+    right: 25px;
+    color: #c89c3c;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border: 1px solid #eaddbc;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fdfbf7;
+}
+
 .pre-title {
-    font-size: 0.75rem;
-    letter-spacing: 3px;
+    font-family: var(--font-sans);
+    letter-spacing: 2.5px;
     color: #666;
-    margin-bottom: 30px;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    margin-bottom: 25px;
 }
 
 .couple-names {
     font-family: var(--font-script);
-    font-size: 3.5rem;
-    line-height: 1.2;
+    font-size: 4rem;
+    line-height: 1.1;
     margin-bottom: 20px;
-    color: var(--text-dark);
+    color: #222;
+    font-weight: normal;
 }
 
 .ampersand {
     font-family: var(--font-serif);
-    font-size: 2rem;
+    font-size: 2.5rem;
     font-style: italic;
-    color: var(--accent-gold);
-    display: inline-block;
-    margin: 0 10px;
+    color: #d4af37;
+    font-weight: normal;
 }
 
 .heart-divider {
-    color: var(--accent-gold);
-    font-size: 1.2rem;
-    margin: 20px 0;
+    color: #d4af37;
+    font-size: 0.9rem;
+    margin: 15px 0 25px;
 }
 
 .welcome-message {
-    font-style: italic;
     font-family: var(--font-serif);
-    color: #555;
-    margin-bottom: 40px;
-    padding: 0 20px;
+    font-style: italic;
+    color: #666;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 35px;
+    padding: 0 10px;
 }
 
 .wedding-details {
-    margin-bottom: 50px;
+    font-family: var(--font-sans);
+    color: #333;
+    margin-bottom: 40px;
 }
 
 .wedding-details .date {
-    font-size: 0.85rem;
-    letter-spacing: 2px;
     font-weight: bold;
-    margin-bottom: 10px;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    color: #222;
 }
 
 .wedding-details .venue {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     color: #666;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+}
+
+.btn-gold {
+    background-color: #c89c3c;
+    color: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    padding: 15px 35px;
+    border-radius: 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.3s;
+    box-shadow: 0 4px 10px rgba(200, 156, 60, 0.3);
+}
+
+.btn-gold:hover {
+    background-color: #b3882e;
 }
 
 /* Name Entry */

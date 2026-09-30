@@ -12,7 +12,12 @@
 </head>
 <body class="welcome-bg">
     <div class="welcome-container">
+        <div class="envelope-back"></div>
+        
         <div class="invitation-card">
+            <!-- Optional close button seen in screenshot -->
+            <div class="close-x">&times;</div>
+            
             <p class="pre-title">TOGETHER WITH THEIR FAMILIES</p>
             
             <h1 class="couple-names"><%= wedding.groom_name %> <span class="ampersand">&</span> <%= wedding.bride_name %></h1>
@@ -20,16 +25,18 @@
             <div class="heart-divider">♥</div>
             
             <p class="welcome-message">
-                <%= wedding.welcome_message || "Two lives, two hearts, joined together in friendship, united forever in love." %>
+                <%= wedding.welcome_message || "Two lives, two hearts, joined together in friendship, united forever in love. We invite you to celebrate with us." %>
             </p>
             
             <div class="wedding-details">
                 <p class="date"><%= new Date(wedding.wedding_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() %></p>
-                <p class="venue"><%= wedding.ceremony_venue %> • <%= wedding.location %></p>
+                <p class="venue"><%= wedding.ceremony_venue %> &bull; <%= wedding.location %></p>
             </div>
             
-            <a href="/w/<%= wedding.slug %>/name" class="btn-primary">CAPTURE OUR MOMENTS &rarr;</a>
+            <a href="/w/<%= wedding.slug %>/name" class="btn-gold">CAPTURE OUR MOMENTS &rarr;</a>
         </div>
+        
+        <div class="envelope-front"></div>
     </div>
 </body>
 </html>
