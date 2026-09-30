@@ -8,20 +8,26 @@
     <link rel="stylesheet" href="/css/guest.css">
 </head>
 <body class="welcome-bg">
-    <div class="welcome-container">
-        <div class="invitation-card success-card">
-            <div class="success-icon">✓</div>
+    <div class="env-stage">
+        <div class="env-glow"></div>
+        
+        <div class="vertical-card name-card-custom">
+            <div class="vertical-card-inner-border"></div>
             
-            <h2 class="name-title">Memory Shared!</h2>
+            <div class="name-header-custom" style="text-align: center;">
+                <div class="success-icon-elegant">✓</div>
+                
+                <h1 class="name-title" style="margin-bottom: 1.5rem;">Memory Shared!</h1>
+                
+                <p class="name-desc">
+                    Your photo is now part of<br>
+                    <%= wedding.groom_name %> & <%= wedding.bride_name %>'s wedding album.
+                </p>
+            </div>
             
-            <p class="name-desc">
-                Your photo is now part of<br>
-                <%= wedding.groom_name %> & <%= wedding.bride_name %>'s wedding album.
-            </p>
-            
-            <div class="action-buttons">
-                <a href="/w/<%= wedding.slug %>/camera" class="btn-primary">TAKE ANOTHER PHOTO</a>
-                <a href="/w/<%= wedding.slug %>/album" class="btn-secondary">VIEW ALBUM</a>
+            <div class="action-buttons-custom">
+                <a href="/w/<%= wedding.slug %>/camera" class="name-btn-continue">TAKE ANOTHER PHOTO</a>
+                <a href="/w/<%= wedding.slug %>/album" class="name-btn-secondary">VIEW ALBUM</a>
             </div>
         </div>
     </div>

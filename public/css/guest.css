@@ -148,21 +148,47 @@
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    box-sizing: border-box;
 }
 .name-btn-continue:hover { background-color: #1a1714; }
 
-/* Success Page */
-.success-icon {
-    font-size: 4rem;
-    color: var(--accent-gold);
-    margin-bottom: 20px;
+.name-btn-secondary {
+    width: 100%;
+    background-color: transparent;
+    color: #312b26;
+    border: 1px solid #3b332b;
+    padding: 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+    display: inline-block;
+    box-sizing: border-box;
+}
+.name-btn-secondary:hover {
+    background-color: #f4ede0;
 }
 
-.action-buttons {
+/* Success Page - Inside Card */
+.success-icon-elegant {
+    font-size: 3.5rem;
+    color: #c59a35;
+    margin-bottom: 0.5rem;
+    font-weight: 300;
+}
+
+.action-buttons-custom {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-top: 40px;
+    gap: 1rem;
+    width: 100%;
+    margin-top: 2rem;
 }
 
 /* Camera Interface */
