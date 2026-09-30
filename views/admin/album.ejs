@@ -31,28 +31,72 @@
     </header>
 
     <main class="dashboard-content">
-        <div class="admin-album-grid">
+        <div class="guest-folders-grid">
             <% if (photos && photos.length > 0) { %>
-                <% photos.forEach(photo => { %>
-                    <div class="admin-photo-card" id="photo-<%= photo.id %>">
-                        <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= photo.thumbnail_path %>" alt="Photo by <%= photo.guest_name %>" class="admin-thumbnail">
-                        <div class="photo-meta">
-                            <span class="guest-name"><%= photo.guest_name %></span>
-                            <span class="date"><%= new Date(photo.created_at).toLocaleDateString() %></span>
+                <% 
+                   const groupedPhotos = {};
+                   photos.forEach(photo => {
+                       const name = photo.guest_name || 'Anonymous';
+                       if (!groupedPhotos[name]) groupedPhotos[name] = [];
+                       groupedPhotos[name].push(photo);
+                   });
+                %>
+                <% Object.keys(groupedPhotos).forEach((guestName, index) => { 
+                    const guestPhotos = groupedPhotos[guestName];
+                    const coverPhoto = guestPhotos[0];
+                    const folderId = 'folder-' + index;
+                %>
+                    <div class="guest-folder-card" onclick="openModal('<%= folderId %>')">
+                        <div class="folder-cover">
+                            <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= coverPhoto.thumbnail_path %>" alt="Cover by <%= guestName %>">
+                            <div class="folder-count"><%= guestPhotos.length %></div>
                         </div>
-                        <div class="photo-actions">
-                            <a href="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= photo.storage_path %>" target="_blank" class="btn-secondary btn-small">View</a>
-                            <button onclick="deletePhoto('<%= photo.id %>')" class="btn-danger btn-small">Delete</button>
+                        <div class="folder-meta">
+                            <h3><%= guestName %></h3>
+                            <span>Last updated: <%= new Date(coverPhoto.created_at).toLocaleDateString() %></span>
+                        </div>
+                    </div>
+                    
+                    <!-- Modal for this guest -->
+                    <div class="folder-modal" id="<%= folderId %>" style="display: none;">
+                        <div class="folder-modal-content">
+                            <div class="folder-modal-header">
+                                <h2>Captures by <%= guestName %></h2>
+                                <span class="close-modal" onclick="closeModal('<%= folderId %>')">&times;</span>
+                            </div>
+                            <div class="admin-album-grid">
+                                <% guestPhotos.forEach(photo => { %>
+                                    <div class="admin-photo-card" id="photo-<%= photo.id %>">
+                                        <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= photo.thumbnail_path %>" loading="lazy" alt="Photo" class="admin-thumbnail">
+                                        <div class="photo-meta" style="padding: 10px;">
+                                            <span class="date"><%= new Date(photo.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %></span>
+                                        </div>
+                                        <div class="photo-actions" style="padding-top: 0;">
+                                            <a href="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= photo.storage_path %>" target="_blank" class="btn-secondary btn-small">Full</a>
+                                            <button onclick="deletePhoto('<%= photo.id %>')" class="btn-danger btn-small">Del</button>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
                         </div>
                     </div>
                 <% }); %>
             <% } else { %>
-                <p>No photos have been uploaded yet.</p>
+                <p style="text-align: center; width: 100%; color: #888;">No photos have been uploaded yet.</p>
             <% } %>
         </div>
     </main>
 
     <script>
+        function openModal(id) {
+            document.getElementById(id).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeModal(id) {
+            document.getElementById(id).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
         async function deletePhoto(id) {
             if (!confirm('Are you sure you want to delete this photo?')) return;
             
