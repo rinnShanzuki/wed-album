@@ -64,17 +64,14 @@
                                 <h2>Captures by <%= guestName %></h2>
                                 <span class="close-modal" onclick="closeModal('<%= folderId %>')">&times;</span>
                             </div>
-                            <div class="admin-album-grid">
-                                <% guestPhotos.forEach(photo => { %>
-                                    <div class="admin-photo-card" id="photo-<%= photo.id %>">
-                                        <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= photo.thumbnail_path %>" loading="lazy" alt="Photo" class="admin-thumbnail">
-                                        <div class="photo-meta" style="padding: 10px;">
-                                            <span class="date"><%= new Date(photo.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %></span>
-                                        </div>
-                                        <div class="photo-actions" style="padding-top: 0;">
-                                            <a href="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= photo.storage_path %>" target="_blank" class="btn-secondary btn-small">Full</a>
-                                            <button onclick="deletePhoto('<%= photo.id %>')" class="btn-danger btn-small">Del</button>
-                                        </div>
+                            <div class="masonry-grid">
+                                <% guestPhotos.forEach(photo => { 
+                                    const fullUrl = `https://${process.env.SUPABASE_URL.replace('https://', '')}/storage/v1/object/public/wedding-photos/${photo.storage_path}`;
+                                    const thumbUrl = `https://${process.env.SUPABASE_URL.replace('https://', '')}/storage/v1/object/public/wedding-photos/${photo.thumbnail_path}`;
+                                    const timeStr = new Date(photo.created_at).toLocaleString();
+                                %>
+                                    <div class="masonry-item" id="photo-<%= photo.id %>" onclick="openImageViewer('<%= fullUrl %>', '<%= photo.id %>', '<%= timeStr %>')">
+                                        <img src="<%= thumbUrl %>" loading="lazy" alt="Capture">
                                     </div>
                                 <% }); %>
                             </div>
@@ -87,6 +84,21 @@
         </div>
     </main>
 
+    <!-- Global Image Viewer Modal -->
+    <div class="viewer-modal" id="imageViewerModal" style="display: none;">
+        <span class="close-viewer" onclick="closeImageViewer()">&times;</span>
+        <div class="viewer-content-wrapper">
+            <img id="viewerImage" src="" alt="Full view">
+            <div class="viewer-controls">
+                <span id="viewerTime" class="viewer-time"></span>
+                <div class="viewer-actions">
+                    <a id="viewerDownloadBtn" href="" download target="_blank" class="btn-viewer">Download</a>
+                    <button id="viewerDeleteBtn" class="btn-viewer btn-viewer-danger">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         function openModal(id) {
             document.getElementById(id).style.display = 'block';
@@ -95,6 +107,19 @@
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        function openImageViewer(imgUrl, photoId, timeStr) {
+            document.getElementById('viewerImage').src = imgUrl;
+            document.getElementById('viewerTime').innerText = timeStr;
+            document.getElementById('viewerDownloadBtn').href = imgUrl;
+            document.getElementById('viewerDeleteBtn').onclick = function() { deletePhoto(photoId); };
+            
+            document.getElementById('imageViewerModal').style.display = 'flex';
+        }
+
+        function closeImageViewer() {
+            document.getElementById('imageViewerModal').style.display = 'none';
         }
 
         async function deletePhoto(id) {
@@ -109,7 +134,9 @@
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success) {
-                        document.getElementById(`photo-${id}`).remove();
+                        const el = document.getElementById(`photo-${id}`);
+                        if (el) el.remove();
+                        closeImageViewer();
                     } else {
                         alert('Failed: ' + result.error);
                     }

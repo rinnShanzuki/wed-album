@@ -477,3 +477,126 @@
 .close-modal:hover {
     color: #d32f2f;
 }
+
+/* Masonry Grid inside Guest Modal */
+.masonry-grid {
+    column-count: 3;
+    column-gap: 15px;
+    padding-top: 10px;
+}
+@media (max-width: 900px) { .masonry-grid { column-count: 2; } }
+@media (max-width: 500px) { .masonry-grid { column-count: 1; } }
+
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid #f0e6d6;
+}
+
+.masonry-item img {
+    width: 100%;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.masonry-item:hover img {
+    transform: scale(1.03);
+}
+
+/* Global Image Viewer Modal */
+.viewer-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(30, 27, 24, 0.95); /* Darker backdrop for full viewing */
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+}
+
+.close-viewer {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 3rem;
+    cursor: pointer;
+    color: #fff;
+    transition: color 0.2s;
+    line-height: 1;
+    z-index: 2001;
+}
+.close-viewer:hover { color: #d32f2f; }
+
+.viewer-content-wrapper {
+    position: relative;
+    max-width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.viewer-content-wrapper img {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.viewer-controls {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.viewer-time {
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    color: #d0c9c0;
+}
+
+.viewer-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.btn-viewer {
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 8px 20px;
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+
+.btn-viewer:hover {
+    background: #fff;
+    color: #1e1b18;
+}
+
+.btn-viewer-danger {
+    border-color: #d32f2f;
+    color: #ff5252;
+}
+
+.btn-viewer-danger:hover {
+    background: #d32f2f;
+    color: #fff;
+}
