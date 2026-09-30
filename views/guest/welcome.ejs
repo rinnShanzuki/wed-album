@@ -135,18 +135,6 @@
             
             envFoldBtn.addEventListener('click', closeEnvelope);
             envCloseBtn.addEventListener('click', closeEnvelope);
-            
-            // Check if already opened in this session
-            if (sessionStorage.getItem('wedding_invitation_opened') === 'true') {
-                phase = 'opened';
-                envWrapper.classList.add('is-opened');
-                envWrapper.style.transition = 'none'; // skip animation
-                envPrompt.style.display = 'none';
-            }
-            
-            document.getElementById('envEnterBtn').addEventListener('click', () => {
-                sessionStorage.setItem('wedding_invitation_opened', 'true');
-            });
         });
     </script>
 </body>
