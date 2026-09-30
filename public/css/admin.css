@@ -363,6 +363,32 @@
 }
 
 /* Guest Folders Grid */
+.search-container {
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+#guestSearch {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px 20px;
+    border: 1px solid var(--border-gold);
+    border-radius: 30px;
+    background: #fff;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    outline: none;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    box-shadow: var(--shadow-soft);
+}
+
+#guestSearch:focus {
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+}
+
 .guest-folders-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));

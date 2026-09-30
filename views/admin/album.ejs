@@ -31,7 +31,12 @@
     </header>
 
     <main class="dashboard-content">
-        <div class="guest-folders-grid">
+
+        <div class="search-container">
+            <input type="text" id="guestSearch" placeholder="Search for a guest..." onkeyup="filterGuests()">
+        </div>
+
+        <div class="guest-folders-grid" id="guestFoldersGrid">
             <% if (photos && photos.length > 0) { %>
                 <% 
                    const groupedPhotos = {};
@@ -46,7 +51,7 @@
                     const coverPhoto = guestPhotos[0];
                     const folderId = 'folder-' + index;
                 %>
-                    <div class="guest-folder-card" onclick="openModal('<%= folderId %>')">
+                    <div class="guest-folder-card" data-guest-name="<%= guestName.replace(/"/g, '&quot;') %>" onclick="openModal('<%= folderId %>')">
                         <div class="folder-cover">
                             <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= coverPhoto.thumbnail_path %>" alt="Cover by <%= guestName %>">
                             <div class="folder-count"><%= guestPhotos.length %></div>
@@ -108,6 +113,24 @@
         function closeModal(id) {
             document.getElementById(id).style.display = 'none';
             document.body.style.overflow = 'auto';
+        }
+
+        function filterGuests() {
+            const query = document.getElementById('guestSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.guest-folder-card');
+            let found = false;
+            
+            cards.forEach(card => {
+                const name = card.getAttribute('data-guest-name').toLowerCase();
+                if (name.includes(query)) {
+                    card.style.display = 'block';
+                    found = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Optional: show a message if nothing found, but for now just hide the cards.
         }
 
         async function forceDownload(url, filename) {
