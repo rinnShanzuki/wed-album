@@ -73,9 +73,8 @@
                                 <% guestPhotos.forEach(photo => { 
                                     const fullUrl = `https://${process.env.SUPABASE_URL.replace('https://', '')}/storage/v1/object/public/wedding-photos/${photo.storage_path}`;
                                     const thumbUrl = `https://${process.env.SUPABASE_URL.replace('https://', '')}/storage/v1/object/public/wedding-photos/${photo.thumbnail_path}`;
-                                    const timeStr = new Date(photo.created_at).toLocaleString();
                                 %>
-                                    <div class="masonry-item" id="photo-<%= photo.id %>" onclick="openImageViewer('<%= fullUrl %>', '<%= photo.id %>', '<%= timeStr %>')">
+                                    <div class="masonry-item" id="photo-<%= photo.id %>" onclick="openImageViewer('<%= fullUrl %>', '<%= photo.id %>', '<%= photo.created_at %>')">
                                         <img src="<%= thumbUrl %>" loading="lazy" alt="Capture">
                                     </div>
                                 <% }); %>
@@ -160,9 +159,14 @@
             }
         }
 
-        function openImageViewer(imgUrl, photoId, timeStr) {
+        function openImageViewer(imgUrl, photoId, createdAt) {
             document.getElementById('viewerImage').src = imgUrl;
-            document.getElementById('viewerTime').innerText = timeStr;
+            
+            const dateObj = new Date(createdAt);
+            const dateStr = dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+            const timeStr = dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
+            
+            document.getElementById('viewerTime').innerHTML = `${dateStr}<br><span style="font-size: 0.85em; opacity: 0.8; margin-top: 4px; display: inline-block;">${timeStr}</span>`;
             
             const dlBtn = document.getElementById('viewerDownloadBtn');
             dlBtn.onclick = function(e) {
