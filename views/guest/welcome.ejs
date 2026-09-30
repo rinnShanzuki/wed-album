@@ -11,32 +11,143 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body class="welcome-bg">
-    <div class="welcome-container">
-        <div class="envelope-back"></div>
+    <div class="env-stage" id="envStage">
+        <!-- Ambient Glow -->
+        <div class="env-glow"></div>
         
-        <div class="invitation-card">
-            <!-- Optional close button seen in screenshot -->
-            <div class="close-x">&times;</div>
+        <div class="env-wrapper" id="envWrapper">
+            <!-- 1. Back Plate -->
+            <div class="env-back"></div>
             
-            <p class="pre-title">TOGETHER WITH THEIR FAMILIES</p>
+            <!-- 2. Inside Glow -->
+            <div class="env-inside-glow"></div>
             
-            <h1 class="couple-names"><%= wedding.groom_name %> <span class="ampersand">&</span> <%= wedding.bride_name %></h1>
-            
-            <div class="heart-divider">♥</div>
-            
-            <p class="welcome-message">
-                <%= wedding.welcome_message || "Two lives, two hearts, joined together in friendship, united forever in love. We invite you to celebrate with us." %>
-            </p>
-            
-            <div class="wedding-details">
-                <p class="date"><%= new Date(wedding.wedding_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() %></p>
-                <p class="venue"><%= wedding.ceremony_venue %> &bull; <%= wedding.location %></p>
+            <!-- 3. The Card (Rises up on click) -->
+            <div class="env-card" id="envCard">
+                <div class="env-card-inner-border"></div>
+                
+                <button class="env-close-btn" id="envCloseBtn" title="Close Invitation">&times;</button>
+                
+                <div class="env-card-content">
+                    <p class="env-pre-title">TOGETHER WITH THEIR FAMILIES</p>
+                    
+                    <h2 class="env-couple-names">
+                        <%= wedding.groom_name %> <span class="env-ampersand">&amp;</span> <%= wedding.bride_name %>
+                    </h2>
+                    
+                    <div class="env-divider">
+                        <div class="env-line env-line-left"></div>
+                        <div class="env-heart">♥</div>
+                        <div class="env-line env-line-right"></div>
+                    </div>
+                    
+                    <p class="env-welcome-message">
+                        <%= wedding.welcome_message || "Two lives, two hearts, joined together in friendship, united forever in love. We invite you to celebrate with us." %>
+                    </p>
+                </div>
+                
+                <div class="env-wedding-details">
+                    <p class="env-date"><%= new Date(wedding.wedding_date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() %> &bull; 9:00 AM</p>
+                    <p class="env-venue"><%= wedding.ceremony_venue %> &bull; <%= wedding.location %></p>
+                    <p class="env-reception">Reception to follow</p>
+                </div>
+                
+                <div class="env-actions" id="envActions">
+                    <button class="env-btn-secondary" id="envFoldBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                        FOLD BACK
+                    </button>
+                    <a href="/w/<%= wedding.slug %>/name" class="env-btn-primary" id="envEnterBtn">
+                        CAPTURE OUR MOMENTS &rarr;
+                    </a>
+                </div>
             </div>
             
-            <a href="/w/<%= wedding.slug %>/name" class="btn-gold">CAPTURE OUR MOMENTS &rarr;</a>
+            <!-- 4. Envelope Flaps -->
+            <div class="env-flap-left"></div>
+            <div class="env-flap-right"></div>
+            <div class="env-flap-bottom"></div>
+            
+            <div class="env-flap-bottom-text">
+                Our journey to <strong>FOREVER</strong> starts here!
+            </div>
+            
+            <!-- 5. Top Flap & Seal -->
+            <div class="env-flap-top" id="envFlapTop">
+                <div class="env-flap-top-bg"></div>
+                <div class="env-flap-top-text">We are tying the knot!</div>
+                <div class="env-seal" id="envSeal">
+                    <span><%= wedding.groom_name.charAt(0) %>&<%= wedding.bride_name.charAt(0) %></span>
+                    <div class="env-seal-ring"></div>
+                </div>
+            </div>
         </div>
         
-        <div class="envelope-front"></div>
+        <!-- Prompt to tap -->
+        <div class="env-prompt" id="envPrompt">
+            <span class="env-sparkle">✨</span>
+            TAP ENVELOPE TO REVEAL
+            <span class="env-sparkle">✨</span>
+        </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const envWrapper = document.getElementById('envWrapper');
+            const envFoldBtn = document.getElementById('envFoldBtn');
+            const envCloseBtn = document.getElementById('envCloseBtn');
+            const envPrompt = document.getElementById('envPrompt');
+            let phase = 'sealed';
+            let timeoutId;
+            
+            const openEnvelope = () => {
+                if (phase !== 'sealed') return;
+                phase = 'opening';
+                envWrapper.classList.add('is-opening');
+                envPrompt.style.opacity = '0';
+                
+                timeoutId = setTimeout(() => {
+                    phase = 'opened';
+                    envWrapper.classList.remove('is-opening');
+                    envWrapper.classList.add('is-opened');
+                }, 1100);
+            };
+            
+            const closeEnvelope = (e) => {
+                e.stopPropagation();
+                if (phase !== 'opened') return;
+                phase = 'closing';
+                
+                envWrapper.classList.remove('is-opened');
+                envWrapper.classList.add('is-closing');
+                
+                clearTimeout(timeoutId);
+                setTimeout(() => {
+                    phase = 'sealed';
+                    envWrapper.classList.remove('is-closing');
+                    envPrompt.style.opacity = '1';
+                }, 1000);
+            };
+            
+            envWrapper.addEventListener('click', () => {
+                if (phase === 'sealed') openEnvelope();
+            });
+            
+            envFoldBtn.addEventListener('click', closeEnvelope);
+            envCloseBtn.addEventListener('click', closeEnvelope);
+            
+            // Check if already opened in this session
+            if (sessionStorage.getItem('wedding_invitation_opened') === 'true') {
+                phase = 'opened';
+                envWrapper.classList.add('is-opened');
+                envWrapper.style.transition = 'none'; // skip animation
+                envPrompt.style.display = 'none';
+            }
+            
+            document.getElementById('envEnterBtn').addEventListener('click', () => {
+                sessionStorage.setItem('wedding_invitation_opened', 'true');
+            });
+        });
+    </script>
 </body>
 </html>

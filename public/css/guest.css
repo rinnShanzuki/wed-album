@@ -1,178 +1,257 @@
-/* Welcome & Name Pages */
+/* Welcome Page - 3D Envelope Animation */
 .welcome-bg {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f6f4f0; /* warm light beige */
+    margin: 0;
+    padding: 0;
 }
 
-.welcome-container {
-    width: 100%;
-    max-width: 500px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 60px 0; /* space for envelope flaps */
+.env-stage {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw; height: 100dvh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background-color: #f7f4ee;
+    background-image: radial-gradient(#e8e0d2 1.2px, transparent 1.2px);
+    background-size: 24px 24px;
+    padding: 1rem;
+    overflow: hidden;
+    perspective: 1200px;
+    user-select: none;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    z-index: 10;
 }
 
-/* The Envelope Back (Triangle pointing up) */
-.envelope-back {
-    position: absolute;
-    top: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 0;
-    height: 0;
-    border-left: 230px solid transparent;
-    border-right: 230px solid transparent;
-    border-bottom: 150px solid #d4c0a5; /* tan envelope color */
-    z-index: 1;
-}
-
-/* The Envelope Bottom (Rectangle) */
-.envelope-front {
-    position: absolute;
-    bottom: -10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 460px;
-    height: 70px;
-    background: #c3ad8f;
-    clip-path: polygon(0 0, 50% 30px, 100% 0, 100% 100%, 0 100%);
-    z-index: 3;
-    border-radius: 0 0 5px 5px;
-    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
-    max-width: 95vw;
-}
-
-.invitation-card {
-    background-color: #fff;
-    padding: 50px 30px;
-    border: 1px solid #eaeaea;
-    border-radius: 8px;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
-    text-align: center;
-    position: relative;
-    z-index: 2;
-    width: 100%;
-    max-width: 440px;
-}
-
-.invitation-card::before {
-    content: '';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    right: 10px;
-    bottom: 10px;
-    border: 1px solid #d4af37;
-    border-radius: 6px;
+.env-glow {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.7) 0%, rgba(232,224,212,0.85) 100%);
     pointer-events: none;
 }
 
-.close-x {
-    position: absolute;
-    top: 20px;
-    right: 25px;
-    color: #c89c3c;
-    font-size: 1.2rem;
+.env-wrapper {
+    position: relative;
+    width: min(92vw, 520px);
+    height: clamp(260px, 48vw, 340px);
+    display: flex; align-items: center; justify-content: center;
     cursor: pointer;
-    border: 1px solid #eaddbc;
-    border-radius: 50%;
-    width: 25px;
-    height: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fdfbf7;
+    transform-style: preserve-3d;
+    transition: transform 0.75s cubic-bezier(0.33, 1, 0.68, 1);
 }
 
-.pre-title {
-    font-family: var(--font-sans);
-    letter-spacing: 2.5px;
-    color: #666;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    margin-bottom: 25px;
+.env-wrapper.is-opened {
+    transform: scale(0.94) translateY(55px);
+    cursor: default;
 }
 
-.couple-names {
-    font-family: var(--font-script);
-    font-size: 4rem;
-    line-height: 1.1;
-    margin-bottom: 20px;
-    color: #222;
-    font-weight: normal;
+.env-back {
+    position: absolute; inset: 0;
+    background: linear-gradient(145deg, #c7a46e 0%, #b8935c 100%);
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(70, 45, 15, 0.25), 0 8px 20px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+    transition: box-shadow 0.75s;
+}
+.env-wrapper.is-opened .env-back {
+    box-shadow: 0 10px 30px rgba(70, 45, 15, 0.15);
 }
 
-.ampersand {
-    font-family: var(--font-serif);
-    font-size: 2.5rem;
-    font-style: italic;
-    color: #d4af37;
-    font-weight: normal;
+.env-inside-glow {
+    position: absolute; top: 10px; left: 15%; width: 70%; height: 150px;
+    background: radial-gradient(ellipse at center, rgba(255, 235, 175, 0.9) 0%, rgba(212, 175, 55, 0.4) 50%, transparent 80%);
+    filter: blur(18px); z-index: 2; pointer-events: none;
+    opacity: 0; transform: scale(0.8);
+    transition: opacity 1.2s, transform 1.2s;
+}
+.env-wrapper.is-opening .env-inside-glow,
+.env-wrapper.is-opened .env-inside-glow {
+    opacity: 0.85; transform: scale(1);
 }
 
-.heart-divider {
-    color: #d4af37;
-    font-size: 0.9rem;
-    margin: 15px 0 25px;
+.env-flap-left, .env-flap-right, .env-flap-bottom {
+    position: absolute; inset: 0; border-radius: 10px; pointer-events: none;
+}
+.env-flap-left {
+    background: linear-gradient(135deg, #caa771 0%, #bf9b65 100%);
+    clip-path: polygon(0% 0%, 50% 50%, 0% 100%);
+    z-index: 5; filter: drop-shadow(2px 0 4px rgba(0,0,0,0.06));
+}
+.env-flap-right {
+    background: linear-gradient(225deg, #caa771 0%, #bf9b65 100%);
+    clip-path: polygon(100% 0%, 50% 50%, 100% 100%);
+    z-index: 5; filter: drop-shadow(-2px 0 4px rgba(0,0,0,0.06));
+}
+.env-flap-bottom {
+    background: linear-gradient(0deg, #d3af78 0%, #c49e67 100%);
+    clip-path: polygon(0% 100%, 50% 50%, 100% 100%);
+    z-index: 6; filter: drop-shadow(0 -3px 6px rgba(0,0,0,0.07));
 }
 
-.welcome-message {
-    font-family: var(--font-serif);
-    font-style: italic;
-    color: #666;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    margin-bottom: 35px;
-    padding: 0 10px;
+.env-flap-bottom-text {
+    position: absolute; bottom: 8%; left: 0; width: 100%; text-align: center;
+    font-family: var(--font-serif); font-style: italic;
+    font-size: clamp(0.82rem, 2.3vw, 1.05rem); color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.28), 0 0 10px rgba(255, 255, 255, 0.35);
+    letter-spacing: 0.03em; z-index: 7; pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.env-wrapper.is-opened .env-flap-bottom-text { opacity: 0; }
+.env-flap-bottom-text strong { font-style: normal; font-weight: 700; letter-spacing: 0.08em; }
+
+.env-flap-top {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    transform-origin: top center; transform-style: preserve-3d;
+    z-index: 8; transition: transform 0.75s cubic-bezier(0.33, 1, 0.68, 1), z-index 0.75s;
+}
+.env-wrapper.is-opening .env-flap-top,
+.env-wrapper.is-opened .env-flap-top {
+    transform: rotateX(180deg);
+    z-index: 1;
 }
 
-.wedding-details {
-    font-family: var(--font-sans);
-    color: #333;
-    margin-bottom: 40px;
+.env-flap-top-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, #d9ba89 0%, #caa771 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 50% 50%);
+    border-radius: 10px; filter: drop-shadow(0 6px 12px rgba(70, 45, 15, 0.16));
+    backface-visibility: hidden;
 }
 
-.wedding-details .date {
-    font-weight: bold;
-    font-size: 0.85rem;
-    letter-spacing: 1.5px;
-    margin-bottom: 8px;
-    color: #222;
+.env-flap-top-text {
+    position: absolute; top: 14%; left: 0; width: 100%; text-align: center;
+    font-family: var(--font-script); font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+    color: #fff; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.25), 0 0 10px rgba(255, 255, 255, 0.4);
+    letter-spacing: 0.03em; z-index: 9; pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+.env-wrapper.is-opening .env-flap-top-text,
+.env-wrapper.is-opened .env-flap-top-text { opacity: 0; }
+
+.env-seal {
+    position: absolute; top: 50%; left: 50%;
+    width: clamp(64px, 14vw, 82px); height: clamp(64px, 14vw, 82px);
+    background: radial-gradient(circle at 30% 30%, #e8c678, #b8860b);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    z-index: 10; pointer-events: none;
+    box-shadow: 0 8px 18px rgba(45, 28, 10, 0.42), inset 0 0 10px rgba(0,0,0,0.3);
+    color: #fff; font-family: var(--font-serif); font-size: clamp(1.5rem, 3.5vw, 2rem);
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    transform: translate(-50%, -50%) scale(1);
+    transition: transform 0.35s ease-out, opacity 0.35s ease-out;
+}
+.env-wrapper.is-opening .env-seal,
+.env-wrapper.is-opened .env-seal {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+}
+.env-seal-ring {
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 2px solid rgba(224, 182, 140, 0.85); pointer-events: none;
+    animation: seal-pulse 2.2s infinite ease-out;
+}
+.env-wrapper.is-opening .env-seal-ring,
+.env-wrapper.is-opened .env-seal-ring { display: none; }
+@keyframes seal-pulse {
+    0% { transform: scale(1); opacity: 0.55; }
+    50% { transform: scale(1.35); opacity: 0; }
+    100% { transform: scale(1); opacity: 0.55; }
 }
 
-.wedding-details .venue {
-    font-size: 0.8rem;
-    color: #666;
-    letter-spacing: 0.5px;
+.env-card {
+    position: absolute; top: 8px; left: 2.5%; width: 95%; height: 95%; max-height: 85vh;
+    background-color: #fffdf9; border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.45);
+    display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+    padding: clamp(1.4rem, 4vw, 2.2rem) clamp(1rem, 3.5vw, 1.8rem);
+    text-align: center; color: #2a2621; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    pointer-events: none; transform: scale(0.94); opacity: 0; z-index: 0;
+    transition: transform 0.9s cubic-bezier(0.33, 1, 0.68, 1), opacity 0.5s, box-shadow 0.9s;
+}
+.env-wrapper.is-opening .env-card {
+    opacity: 1; z-index: 20; transform: translateY(-140px) scale(0.98);
+}
+.env-wrapper.is-opened .env-card {
+    opacity: 1; z-index: 25; transform: translateY(-15px) scale(1.05); pointer-events: auto;
+    box-shadow: 0 25px 70px rgba(50, 35, 15, 0.35), 0 0 0 1px rgba(212, 175, 55, 0.5);
+    height: auto;
 }
 
-.btn-gold {
-    background-color: #c89c3c;
-    color: #fff;
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    padding: 15px 35px;
-    border-radius: 30px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    text-transform: uppercase;
-    text-decoration: none;
-    transition: background 0.3s;
-    box-shadow: 0 4px 10px rgba(200, 156, 60, 0.3);
+.env-card-inner-border {
+    position: absolute; inset: 8px; border: 1px solid rgba(212, 175, 55, 0.35);
+    border-radius: 7px; pointer-events: none;
 }
 
-.btn-gold:hover {
-    background-color: #b3882e;
+.env-close-btn {
+    position: absolute; top: 14px; right: 14px; width: 32px; height: 32px;
+    border-radius: 50%; background-color: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.35); display: flex; align-items: center; justify-content: center;
+    color: #8c6b24; cursor: pointer; z-index: 30; opacity: 0; transform: scale(0.8);
+    transition: opacity 0.3s, transform 0.3s, background 0.2s; font-size: 1.2rem; line-height: 1;
 }
+.env-wrapper.is-opened .env-close-btn { opacity: 1; transform: scale(1); }
+.env-close-btn:hover { background-color: rgba(212, 175, 55, 0.22); transform: scale(1.1); }
+
+.env-pre-title {
+    font-family: var(--font-sans); font-size: clamp(0.68rem, 1.8vw, 0.76rem);
+    letter-spacing: 0.22em; text-transform: uppercase; color: #b08a2e; font-weight: 600; margin-bottom: 0.3rem;
+}
+.env-couple-names {
+    font-family: var(--font-script); font-size: clamp(2.3rem, 6vw, 3.2rem);
+    font-weight: 400; color: #241f18; line-height: 1.1; margin: 0.1rem 0 0.3rem;
+}
+.env-ampersand { color: #c59a35; font-style: normal; font-size: 0.85em; font-family: var(--font-serif); }
+
+.env-divider {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    margin: 0.3rem auto 0.5rem; width: 110px;
+}
+.env-line { flex: 1; height: 1px; }
+.env-line-left { background: linear-gradient(to right, transparent, #c59a35); }
+.env-line-right { background: linear-gradient(to left, transparent, #c59a35); }
+.env-heart { color: #c59a35; font-size: 0.7rem; }
+
+.env-welcome-message {
+    font-family: var(--font-serif); font-style: italic; font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+    color: #6b6255; max-width: 360px; margin: 0 auto; line-height: 1.4;
+}
+
+.env-wedding-details { margin: 0.8rem 0; }
+.env-date {
+    font-family: var(--font-sans); font-size: clamp(0.66rem, 2.2vw, 0.95rem);
+    font-weight: 600; color: #28231c; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 0.25rem;
+}
+.env-venue { font-family: var(--font-sans); font-size: clamp(0.78rem, 2vw, 0.86rem); color: #544c41; font-weight: 500; margin: 0 0 0.15rem; }
+.env-reception { font-family: var(--font-sans); font-size: clamp(0.72rem, 1.8vw, 0.8rem); color: #776e62; margin: 0; }
+
+.env-actions {
+    display: flex; alignItems: center; gap: 0.6rem; width: 100%; justify-content: center; flex-wrap: wrap;
+    opacity: 0; transform: translateY(8px); transition: opacity 0.4s, transform 0.4s;
+}
+.env-wrapper.is-opened .env-actions { opacity: 1; transform: translateY(0); }
+
+.env-btn-secondary {
+    display: inline-flex; align-items: center; gap: 6px; padding: 0.6rem 1.1rem;
+    border-radius: 20px; background-color: #f4ede0; color: #7e6d54;
+    font-size: 0.76rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    border: 1px solid rgba(212, 175, 55, 0.3); cursor: pointer; transition: all 0.2s;
+    font-family: var(--font-sans); text-decoration: none;
+}
+.env-btn-secondary:hover { background-color: #ede4d3; transform: scale(1.04); }
+
+.env-btn-primary {
+    display: inline-flex; align-items: center; gap: 8px; padding: 0.65rem 1.4rem;
+    border-radius: 20px; background: linear-gradient(135deg, #d4af37 0%, #c49b2c 50%, #b8860b 100%);
+    color: #ffffff; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase;
+    border: none; cursor: pointer; box-shadow: 0 4px 16px rgba(212, 175, 55, 0.35);
+    transition: all 0.2s; font-family: var(--font-sans); text-decoration: none;
+}
+.env-btn-primary:hover { box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); transform: scale(1.04); }
+
+.env-prompt {
+    margin-top: clamp(1.8rem, 5vh, 2.6rem); z-index: 10; display: flex; align-items: center; gap: 0.45rem;
+    color: #9c7c34; font-size: clamp(0.76rem, 2.2vw, 0.84rem); letter-spacing: 0.16em; font-weight: 600;
+    text-transform: uppercase; font-family: var(--font-sans); text-align: center;
+    transition: opacity 0.4s; pointer-events: none;
+}
+.env-sparkle { color: #d4af37; font-size: 1.2rem; line-height: 1; }
+
 
 /* Name Entry */
 .name-card {
