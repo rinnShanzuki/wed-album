@@ -13,6 +13,6 @@ router.use(adminAuth);
 router.get('/', (req, res) => res.redirect('/admin/album'));
 router.get('/qr', adminController.getQr);
 router.get('/album', adminController.getAlbum);
-router.delete('/photos/:id', adminController.deletePhoto); // Use for deleting photos
+router.post('/photos/:id/delete', adminController.deletePhoto); // Use for deleting photos
 
 module.exports = router;

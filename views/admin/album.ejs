@@ -57,15 +57,25 @@
             if (!confirm('Are you sure you want to delete this photo?')) return;
             
             try {
-                const response = await fetch(`/admin/photos/${id}`, { method: 'DELETE' });
+                const response = await fetch(`/admin/photos/${id}/delete`, { 
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
                 if (response.ok) {
-                    document.getElementById(`photo-${id}`).remove();
+                    const result = await response.json();
+                    if (result.success) {
+                        document.getElementById(`photo-${id}`).remove();
+                    } else {
+                        alert('Failed: ' + result.error);
+                    }
                 } else {
-                    alert('Failed to delete photo');
+                    const text = await response.text();
+                    alert('Server error: ' + response.status + ' ' + text);
                 }
             } catch (err) {
                 console.error(err);
-                alert('Error deleting photo');
+                alert('Network error deleting photo: ' + err.message);
             }
         }
     </script>

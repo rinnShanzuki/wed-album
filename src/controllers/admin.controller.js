@@ -55,11 +55,20 @@ exports.getAlbum = async (req, res) => {
 };
 
 exports.deletePhoto = async (req, res) => {
-    // Admin uses API to delete
-    const { id } = req.params;
-    
-    // In a real app, delete from storage too. For MVP, we delete DB record.
-    await supabaseAdmin.from('photos').delete().eq('id', id);
-    
-    res.json({ success: true });
+    try {
+        const { id } = req.params;
+        
+        // Admin uses API to delete
+        const { error } = await supabaseAdmin.from('photos').delete().eq('id', id);
+        
+        if (error) {
+            console.error("Supabase delete error:", error);
+            return res.status(500).json({ success: false, error: error.message });
+        }
+        
+        res.json({ success: true });
+    } catch (err) {
+        console.error("Exception in deletePhoto:", err);
+        res.status(500).json({ success: false, error: err.message });
+    }
 };
