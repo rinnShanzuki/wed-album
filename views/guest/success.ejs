@@ -6,22 +6,23 @@
     <title>Success - <%= wedding.groom_name %> & <%= wedding.bride_name %></title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/guest.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body class="welcome-bg">
     <div class="env-stage">
         <div class="env-glow"></div>
         
-        <div class="vertical-card name-card-custom">
+        <div class="vertical-card" style="justify-content: center; padding: 2.5rem 1.5rem;">
             <div class="vertical-card-inner-border"></div>
             
-            <div class="name-header-custom" style="text-align: center;">
+            <div style="text-align: center; width: 100%;">
                 <div class="success-icon-elegant">✓</div>
                 
-                <h1 class="name-title" style="margin-bottom: 1.5rem;">Memory Shared!</h1>
+                <h1 class="name-title">Memory Shared!</h1>
                 
-                <p class="name-desc">
+                <p class="name-desc" style="margin-bottom: 1.5rem;">
                     Your photo is now part of<br>
-                    <%= wedding.groom_name %> & <%= wedding.bride_name %>'s wedding album.
+                    <%= wedding.groom_name %> & <%= wedding.bride_name %>'s album.
                 </p>
             </div>
             
