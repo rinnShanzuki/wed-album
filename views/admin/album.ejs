@@ -163,10 +163,9 @@
             document.getElementById('viewerImage').src = imgUrl;
             
             const dateObj = new Date(createdAt);
-            const dateStr = dateObj.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
             const timeStr = dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
             
-            document.getElementById('viewerTime').innerHTML = `${dateStr}<br><span style="font-size: 0.85em; opacity: 0.8; margin-top: 4px; display: inline-block;">${timeStr}</span>`;
+            document.getElementById('viewerTime').innerHTML = timeStr;
             
             const dlBtn = document.getElementById('viewerDownloadBtn');
             dlBtn.onclick = function(e) {
