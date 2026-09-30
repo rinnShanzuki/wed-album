@@ -86,13 +86,14 @@
 
     <!-- Global Image Viewer Modal -->
     <div class="viewer-modal" id="imageViewerModal" style="display: none;">
+        <div class="viewer-backdrop" onclick="closeImageViewer()"></div>
         <span class="close-viewer" onclick="closeImageViewer()">&times;</span>
         <div class="viewer-content-wrapper">
             <img id="viewerImage" src="" alt="Full view">
             <div class="viewer-controls">
                 <span id="viewerTime" class="viewer-time"></span>
                 <div class="viewer-actions">
-                    <a id="viewerDownloadBtn" href="" download target="_blank" class="btn-viewer">Download</a>
+                    <button id="viewerDownloadBtn" class="btn-viewer">Download</button>
                     <button id="viewerDeleteBtn" class="btn-viewer btn-viewer-danger">Delete</button>
                 </div>
             </div>
@@ -109,11 +110,48 @@
             document.body.style.overflow = 'auto';
         }
 
+        async function forceDownload(url, filename) {
+            try {
+                const btn = document.getElementById('viewerDownloadBtn');
+                const originalText = btn.innerText;
+                btn.innerText = 'Downloading...';
+                btn.disabled = true;
+
+                const response = await fetch(url);
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = blobUrl;
+                a.download = filename || 'wedding-photo.jpg';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(blobUrl);
+                document.body.removeChild(a);
+
+                btn.innerText = originalText;
+                btn.disabled = false;
+            } catch (e) {
+                console.error('Download failed', e);
+                window.open(url, '_blank');
+            }
+        }
+
         function openImageViewer(imgUrl, photoId, timeStr) {
             document.getElementById('viewerImage').src = imgUrl;
             document.getElementById('viewerTime').innerText = timeStr;
-            document.getElementById('viewerDownloadBtn').href = imgUrl;
-            document.getElementById('viewerDeleteBtn').onclick = function() { deletePhoto(photoId); };
+            
+            const dlBtn = document.getElementById('viewerDownloadBtn');
+            dlBtn.onclick = function(e) {
+                e.preventDefault();
+                forceDownload(imgUrl, `wedding_photo_${photoId}.jpg`);
+            };
+
+            const delBtn = document.getElementById('viewerDeleteBtn');
+            delBtn.onclick = function(e) {
+                e.preventDefault();
+                deletePhoto(photoId);
+            };
             
             document.getElementById('imageViewerModal').style.display = 'flex';
         }
