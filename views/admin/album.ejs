@@ -1,25 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shared Album - <%= wedding.groom_name %> & <%= wedding.bride_name %></title>
+    <title>Shared Album - <%= wedding.groom_name %> & <%= wedding.bride_name %>
+    </title>
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/admin.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Lato:wght@300;400&display=swap"
+        rel="stylesheet">
 </head>
+
 <body class="admin-dashboard">
     <header class="admin-header">
         <div class="header-content" style="position: relative;">
             <h1>Shared Album</h1>
-            
+
             <div class="header-actions">
-                <span class="photo-count-text" style="color: #888; margin-right: 20px; font-size: 0.9rem;"><%= photos.length %> Photos</span>
-                
+                <span class="photo-count-text" style="color: #888; margin-right: 20px; font-size: 0.9rem;">
+                    <%= photos.length %> Photos
+                </span>
+
                 <button class="hamburger-btn" onclick="document.getElementById('nav-links').classList.toggle('active')">
                     &#9776;
                 </button>
-                
+
                 <div class="nav-links" id="nav-links">
                     <a href="/admin/qr" class="btn-text" style="text-decoration: none;">QR Code</a>
                     <form action="/admin/logout" method="POST" style="margin: 0;">
@@ -37,54 +44,64 @@
         </div>
 
         <div class="guest-folders-grid" id="guestFoldersGrid">
-            <% if (photos && photos.length > 0) { %>
-                <% 
-                   const groupedPhotos = {};
-                   photos.forEach(photo => {
-                       const name = photo.guest_name || 'Anonymous';
-                       if (!groupedPhotos[name]) groupedPhotos[name] = [];
-                       groupedPhotos[name].push(photo);
-                   });
-                %>
-                <% Object.keys(groupedPhotos).forEach((guestName, index) => { 
-                    const guestPhotos = groupedPhotos[guestName];
-                    const coverPhoto = guestPhotos[0];
-                    const folderId = 'folder-' + index;
-                %>
-                    <div class="guest-folder-card" data-guest-name="<%= guestName.replace(/"/g, '&quot;') %>" onclick="openModal('<%= folderId %>')">
-                        <div class="folder-cover">
-                            <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= coverPhoto.thumbnail_path %>" alt="Cover by <%= guestName %>">
-                            <div class="folder-count"><%= guestPhotos.length %></div>
-                        </div>
-                        <div class="folder-meta">
-                            <h3><%= guestName %></h3>
-                            <span>Last updated: <%= new Date(coverPhoto.created_at).toLocaleDateString() %></span>
-                        </div>
-                    </div>
-                    
-                    <!-- Modal for this guest -->
-                    <div class="folder-modal" id="<%= folderId %>" style="display: none;">
-                        <div class="folder-modal-content">
-                            <div class="folder-modal-header">
-                                <h2>Captures by <%= guestName %></h2>
-                                <span class="close-modal" onclick="closeModal('<%= folderId %>')">&times;</span>
-                            </div>
-                            <div class="masonry-grid">
-                                <% guestPhotos.forEach(photo => { 
-                                    const fullUrl = `https://${process.env.SUPABASE_URL.replace('https://', '')}/storage/v1/object/public/wedding-photos/${photo.storage_path}`;
-                                    const thumbUrl = `https://${process.env.SUPABASE_URL.replace('https://', '')}/storage/v1/object/public/wedding-photos/${photo.thumbnail_path}`;
-                                %>
-                                    <div class="masonry-item" id="photo-<%= photo.id %>" onclick="openImageViewer('<%= fullUrl %>', '<%= photo.id %>', '<%= photo.created_at %>')">
-                                        <img src="<%= thumbUrl %>" loading="lazy" alt="Capture">
+            <% if (photos && photos.length> 0) { %>
+                <% const groupedPhotos={}; photos.forEach(photo=> {
+                    const name = photo.guest_name || 'Anonymous';
+                    if (!groupedPhotos[name]) groupedPhotos[name] = [];
+                    groupedPhotos[name].push(photo);
+                    });
+                    %>
+                    <% Object.keys(groupedPhotos).forEach((guestName, index)=> {
+                        const guestPhotos = groupedPhotos[guestName];
+                        const coverPhoto = guestPhotos[0];
+                        const folderId = 'folder-' + index;
+                        %>
+                        <div class="guest-folder-card" id="card-<%= folderId %>" data-guest-name="<%= guestName.replace(/"/g, '&quot;') %>"
+                            onclick="openModal('<%= folderId %>')">
+                                <div class="folder-cover">
+                                    <img src="https://<%= process.env.SUPABASE_URL.replace('https://', '') %>/storage/v1/object/public/wedding-photos/<%= coverPhoto.thumbnail_path %>"
+                                        alt="Cover by <%= guestName %>">
+                                    <div class="folder-count">
+                                        <%= guestPhotos.length %>
                                     </div>
-                                <% }); %>
+                                </div>
+                                <div class="folder-meta">
+                                    <h3>
+                                        <%= guestName %>
+                                    </h3>
+                                    <span>Last updated: <%= new Date(coverPhoto.created_at).toLocaleDateString() %>
+                                            </span>
+                                </div>
+                        </div>
+
+                        <!-- Modal for this guest -->
+                        <div class="folder-modal" id="<%= folderId %>" style="display: none;">
+                            <div class="folder-modal-content">
+                                <div class="folder-modal-header">
+                                    <h2>Captures by <%= guestName %>
+                                    </h2>
+                                    <span class="close-modal" onclick="closeModal('<%= folderId %>')">&times;</span>
+                                </div>
+                                <div class="masonry-grid">
+                                    <% guestPhotos.forEach(photo=> {
+                                        const fullUrl = `https://${process.env.SUPABASE_URL.replace('https://',
+                                        '')}/storage/v1/object/public/wedding-photos/${photo.storage_path}`;
+                                        const thumbUrl = `https://${process.env.SUPABASE_URL.replace('https://',
+                                        '')}/storage/v1/object/public/wedding-photos/${photo.thumbnail_path}`;
+                                        %>
+                                        <div class="masonry-item" id="photo-<%= photo.id %>"
+                                            onclick="openImageViewer('<%= fullUrl %>', '<%= photo.id %>', '<%= photo.created_at %>')">
+                                            <img src="<%= thumbUrl %>" loading="lazy" alt="Capture">
+                                        </div>
+                                        <% }); %>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                <% }); %>
-            <% } else { %>
-                <p style="text-align: center; width: 100%; color: #888;">No photos have been uploaded yet.</p>
-            <% } %>
+                        <% }); %>
+                            <% } else { %>
+                                <p style="text-align: center; width: 100%; color: #888;">No photos have been uploaded
+                                    yet.</p>
+                                <% } %>
         </div>
     </main>
 
@@ -118,7 +135,7 @@
             const query = document.getElementById('guestSearch').value.toLowerCase();
             const cards = document.querySelectorAll('.guest-folder-card');
             let found = false;
-            
+
             cards.forEach(card => {
                 const name = card.getAttribute('data-guest-name').toLowerCase();
                 if (name.includes(query)) {
@@ -161,24 +178,24 @@
 
         function openImageViewer(imgUrl, photoId, createdAt) {
             document.getElementById('viewerImage').src = imgUrl;
-            
+
             const dateObj = new Date(createdAt);
             const timeStr = dateObj.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
-            
+
             document.getElementById('viewerTime').innerHTML = timeStr;
-            
+
             const dlBtn = document.getElementById('viewerDownloadBtn');
-            dlBtn.onclick = function(e) {
+            dlBtn.onclick = function (e) {
                 e.preventDefault();
                 forceDownload(imgUrl, `wedding_photo_${photoId}.jpg`);
             };
 
             const delBtn = document.getElementById('viewerDeleteBtn');
-            delBtn.onclick = function(e) {
+            delBtn.onclick = function (e) {
                 e.preventDefault();
                 deletePhoto(photoId);
             };
-            
+
             document.getElementById('imageViewerModal').style.display = 'flex';
         }
 
@@ -188,18 +205,43 @@
 
         async function deletePhoto(id) {
             if (!confirm('Are you sure you want to delete this photo?')) return;
-            
+
             try {
-                const response = await fetch(`/admin/photos/${id}/delete`, { 
+                const response = await fetch(`/admin/photos/${id}/delete`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' }
                 });
-                
+
                 if (response.ok) {
                     const result = await response.json();
                     if (result.success) {
                         const el = document.getElementById(`photo-${id}`);
-                        if (el) el.remove();
+                        if (el) {
+                            const modal = el.closest('.folder-modal');
+                            el.remove();
+
+                            if (modal) {
+                                const folderId = modal.id;
+                                const remaining = modal.querySelectorAll('.masonry-item').length;
+                                const card = document.getElementById(`card-${folderId}`);
+                                const globalCountEl = document.querySelector('.photo-count-text');
+
+                                if (remaining === 0) {
+                                    if (card) card.remove();
+                                    modal.remove();
+                                } else {
+                                    if (card) {
+                                        const countEl = card.querySelector('.folder-count');
+                                        if (countEl) countEl.innerText = remaining;
+                                    }
+                                }
+
+                                if (globalCountEl) {
+                                    let currentCount = parseInt(globalCountEl.innerText);
+                                    if (!isNaN(currentCount)) globalCountEl.innerText = `${currentCount - 1} Photos`;
+                                }
+                            }
+                        }
                         closeImageViewer();
                     } else {
                         alert('Failed: ' + result.error);
@@ -215,4 +257,5 @@
         }
     </script>
 </body>
+
 </html>
